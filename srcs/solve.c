@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:43:23 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 13:56:45 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:55:06 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,81 @@ t_bool	remaining_area_might_fit(t_bsq *bsq, t_coord coord)
 */
 void	probe(t_bsq *bsq, t_coord cd)
 {
-	t_bool	ms;
-
-	ms = false;
+	cd.maxx_found = false;
 	if (!bsq->best.area)
 		bsq->best = cd;
 	while (cd.ye < bsq->info.height)
 	{
 		cd.xe = cd.x;
-		while (cd.xe < bsq->info.width - 1 && (!ms || cd.xe < cd.maxx))
+		while (cd.xe < bsq->info.width - 1
+			&& (!cd.maxx_found || cd.xe < cd.maxx))
 		{
 			if (bsq->ss[cd.ye][cd.xe] != bsq->info.key[EMPTY])
 			{
-				ms = true;
+				cd.maxx_found = true;
 				cd.maxx = cd.xe;
 				break ;
 			}
 			cd.area = (1 + (cd.xe - cd.x)) * (1 + (cd.ye - cd.y));
 			if (cd.area > bsq->best.area)
 				bsq->best = cd;
+			debug(bsq, cd);
 			if (!remaining_area_might_fit(bsq, cd))
 				return ;
 			cd.xe++;
 		}
+		cd.ye++;
+	}
+}
+
+/*
+** since we incremented X and Y by one, now we just check if this
+** this new line and column we expanded into are "empty"
+*/
+t_bool	square_checkback(t_bsq *bsq, t_coord cd)
+{
+	size_t	x;
+	size_t	y;
+
+	x = cd.xe;
+	y = cd.ye;
+	while (x >= cd.x)
+	{
+		if (bsq->ss[cd.ye][x] != bsq->info.key[EMPTY])
+			return (false);
+		if (x == cd.x)
+			break ;
+		x--;
+	}
+	while (y >= cd.y)
+	{
+		if (bsq->ss[y][cd.xe] != bsq->info.key[EMPTY])
+			return (false);
+		if (y == cd.y)
+			break ;
+		y--;
+	}
+	return (true);
+}
+
+void	probesquare(t_bsq *bsq, t_coord cd)
+{
+	t_bool	ms;
+
+	ms = false;
+	if (!bsq->best.area)
+		bsq->best = cd;
+	while (cd.ye < bsq->info.height && cd.xe < bsq->info.width - 1)
+	{
+		if (!square_checkback(bsq, cd))
+			return ;
+		cd.area = (1 + (cd.xe - cd.x)) * (1 + (cd.ye - cd.y));
+		if (cd.area > bsq->best.area)
+			bsq->best = cd;
+		debug(bsq, cd);
+		if (!remaining_area_might_fit(bsq, cd))
+			return ;
+		cd.xe++;
 		cd.ye++;
 	}
 }
@@ -75,7 +127,10 @@ void	solve(t_bsq *bsq)
 				coord.area = 1;
 				coord.ye = coord.y;
 				coord.xe = coord.x;
-				probe(bsq, coord);
+				if (ISRECT)
+					probe(bsq, coord);
+				else
+					probesquare(bsq, coord);
 			}
 			if (!remaining_area_might_fit(bsq, coord))
 				return ;

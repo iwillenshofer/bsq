@@ -6,11 +6,23 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 15:49:11 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/05 20:46:33 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:43:35 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bsq.h"
+
+char	*ft_strchr(char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	if (!s[i] && c != 0)
+		return (NULL);
+	return (&s[i]);
+}
 
 char	*ft_strjoin(char *s, const char *s1)
 {

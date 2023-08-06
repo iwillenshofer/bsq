@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 15:48:56 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 03:01:56 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/06 14:42:29 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ int	main(int argc, char **argv)
 		if (argc > 1)
 			fd = open(*argv, O_RDONLY);
 		if (fd == -1 || !(run_bsq(&bsq, fd)))
-			ft_putstr("map error\n");
+			ft_putstr_fd(2, "map error\n");
 		free_ss(bsq.ss);
 		if (argc == 1)
 			break ;
 		argv++;
+		if (*argv && argc > 1)
+			ft_putstr("\n");
 	}
 }

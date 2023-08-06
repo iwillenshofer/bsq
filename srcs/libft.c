@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:10:07 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/05 23:36:36 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:43:32 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,9 @@ void	ft_putstr(char *s)
 	write(1, s, ft_strlen(s));
 }
 
-char	*ft_strchr(char *s, int c)
+void	ft_putstr_fd(int fd, char *s)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	if (!s[i] && c != 0)
-		return (NULL);
-	return (&s[i]);
+	write(fd, s, ft_strlen(s));
 }
 
 void	ft_strcpy(char *dst, char *src)

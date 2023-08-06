@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 15:48:59 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 03:04:43 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:54:01 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@
 # define FULL		2
 # define BREAK		4
 
+# ifndef DEBUG
+#  define ISDEBUG 0
+# else
+#  define ISDEBUG 1
+# endif
+
+# ifndef RECTANGLE
+#  define ISRECT 0
+# else
+#  define ISRECT 1
+# endif
+
 typedef enum e_bool { false, true }	t_bool;
 
 typedef struct s_coord
@@ -35,6 +47,7 @@ typedef struct s_coord
 	size_t	ye;
 	size_t	maxx;
 	size_t	area;
+	t_bool	maxx_found;
 }	t_coord;
 
 /*
@@ -81,5 +94,6 @@ void	free_ss(char **ss);
 */
 void	debug(t_bsq *bsq, t_coord coord);
 void	print(char **ss, t_coord coord, char full);
+void	ft_putstr_fd(int fd, char *s);
 
 #endif
