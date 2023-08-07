@@ -64,10 +64,10 @@
 
 ### Usage
 ```bash
-$ make					# builds the default version: release/square
-$ make debug			# builds the default debug version: debug/square
-$ make rectangle		# builds the rectangle version: release/rectangle
-$ make rectangle debug	# builds the rectangle debug version: debug/rectangle
+$ make								# builds the default version: release/square
+$ make debug						# builds the default debug version: debug/square
+$ make rectangle					# builds the rectangle version: release/rectangle
+$ make rectangle debug				# builds the rectangle debug version: debug/rectangle
 $ ./bsq textfile
 ```
 
@@ -133,3 +133,26 @@ $ ./bsq textfile
 ```
 
 ![image description](.resources/a4.gif)
+
+## Multithreading
+
+Multithreading was also added, so that all commands above can run be run in one thread per line of the map:
+```bash
+$ make multithread
+$ make debug multithread
+$ make rectangle multithread
+$ make rectangle debug multithread
+$ ./bsq textfile
+```
+
+Multithreading results seems to be a lot faster. In a 10000x10000 map, those are the timing results:
+```bash
+bsq square release multithread is built. 
+       40.72 real       123.10 user         1.86 sys
+bsq square release singlethread is built. 
+      136.28 real       134.96 user         0.51 sys
+bsq rectangle release multithread is built. 
+     1911.61 real      7415.45 user         8.13 sys
+bsq rectangle release singlethread is built. 
+     8061.19 real      8023.46 user         9.32 sys
+````

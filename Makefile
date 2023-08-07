@@ -6,7 +6,7 @@
 #    By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/12 15:22:29 by iwillens          #+#    #+#              #
-#    Updated: 2023/08/06 15:53:38 by iwillens         ###   ########.fr        #
+#    Updated: 2023/08/06 21:51:52 by iwillens         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = ${SRC_DIR}/gnl.c \
  		${SRC_DIR}/parse.c \
 		${SRC_DIR}/solve.c \
 		${SRC_DIR}/debug.c \
+		${SRC_DIR}/multithread.c \
  		${SRC_DIR}/main.c
 
 OBJS = $(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRCS})
@@ -48,6 +49,15 @@ ifneq (,$(filter debug,$(MAKECMDGOALS)))
     CCFLAGS += -DDEBUG
 endif
 
+BUILD_THREAD_NAME = singlethread
+BUILD_THREAD = ${OBJ_DIR}/.build_singlethread
+ifneq (,$(filter multithread,$(MAKECMDGOALS)))
+	BUILD_THREAD_NAME = multithread
+    BUILD_THREAD = ${OBJ_DIR}/.build_multithread
+    CCFLAGS += -DMULTITHREAD
+endif
+
+
 all: ${NAME}
 
 square: ${NAME}
@@ -56,13 +66,17 @@ debug: ${NAME}
 
 rectangle: ${NAME}
 
-${NAME}: ${OBJS} Makefile ${BUILD_TYPE} ${BUILD_VERSION}
+singlethread: ${NAME}
+
+multithread: ${NAME}
+
+${NAME}: ${OBJS} Makefile ${BUILD_TYPE} ${BUILD_VERSION} ${BUILD_THREAD}
 	@gcc ${CCFLAGS} ${OBJS} -o ${NAME}
-	@echo "\033[90m${NAME}\033[95m ${BUILD_TYPE_NAME}\033[92m ${BUILD_VERSION_NAME} \033[90mis built. \033[0m"
+	@echo "\033[90m${NAME}\033[95m ${BUILD_TYPE_NAME}\033[92m ${BUILD_VERSION_NAME}\033[94m ${BUILD_THREAD_NAME} \033[90mis built. \033[0m"
 
 
 
-${OBJ_DIR}/%.o: $(SRC_DIR)/%.c Makefile  ${BUILD_TYPE} ${BUILD_VERSION}
+${OBJ_DIR}/%.o: $(SRC_DIR)/%.c Makefile ${BUILD_TYPE} ${BUILD_VERSION} ${BUILD_THREAD}
 	@mkdir -p ${@D}
 	@${CC} ${CCFLAGS} -MMD -c $< -I ${INC_DIR} -o $@
 
@@ -78,6 +92,13 @@ ${BUILD_VERSION}:
 	@rm -rf ${OBJ_DIR}/.build_debug
 	@mkdir -p ${OBJ_DIR}
 	@touch ${BUILD_VERSION}
+
+
+${BUILD_THREAD}:
+	@rm -rf ${OBJ_DIR}/.build_singlethread
+	@rm -rf ${OBJ_DIR}/.build_multithread
+	@mkdir -p ${OBJ_DIR}
+	@touch ${BUILD_THREAD}
 
 clean:
 	@rm -rf ${OBJ_DIR}

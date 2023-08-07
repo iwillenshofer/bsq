@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 15:48:56 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 14:42:29 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/06 21:42:08 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_bool	run_bsq(t_bsq *bsq, int fd)
 		return (false);
 	else if (!(validmap(bsq)))
 		return (false);
-	solve(bsq);
+	if (ISMULTITHREAD)
+		mtsolve(bsq);
+	else
+		solve(bsq);
 	print(bsq->ss, bsq->best, bsq->info.key[FULL]);
 	return (true);
 }

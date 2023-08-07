@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:43:23 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 16:55:06 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/07 14:06:33 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ t_bool	square_checkback(t_bsq *bsq, t_coord cd)
 	return (true);
 }
 
+/*
+** just like the probe() function, it checks for a square from a
+** start point. The difference is that it will increment x and y
+** at the same time for each probe.
+*/
 void	probesquare(t_bsq *bsq, t_coord cd)
 {
 	t_bool	ms;
@@ -112,6 +117,10 @@ void	probesquare(t_bsq *bsq, t_coord cd)
 	}
 }
 
+/*
+** just loops through each single point on the map, and if it is empty,
+** probe it, to see how big of a square (or rectangle) we find there.
+*/
 void	solve(t_bsq *bsq)
 {
 	t_coord	coord;
