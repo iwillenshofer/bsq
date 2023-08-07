@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 02:08:20 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 16:40:39 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/07 13:46:30 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	debug(t_bsq *bsq, t_coord coord)
 
 	if (!ISDEBUG)
 		return ;
+	if (ISMULTITHREAD)
+		pthread_mutex_lock(&(bsq->mtxdebug));
 	ss = copy_original(bsq);
 	ft_putstr("\033[2J\033[Hsolving. area: ");
 	ft_putnbr(coord.area);
@@ -61,5 +63,7 @@ void	debug(t_bsq *bsq, t_coord coord)
 	ss = copy_original(bsq);
 	print(ss, bsq->best, bsq->info.key[FULL]);
 	free_ss(ss);
-	usleep(50000);
+	if (ISMULTITHREAD)
+		pthread_mutex_unlock(&(bsq->mtxdebug));
+	usleep(DEBUG_SPEED);
 }
