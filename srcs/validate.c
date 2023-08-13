@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 21:40:11 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/14 01:40:03 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:43:02 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ t_bool	validmap(t_bsq *bsq)
 	bsq->info.key[EMPTY] = '.';
 	bsq->info.key[OBSTACLE] = 'o';
 	bsq->info.key[FULL] = 'x';
-	popfirst(bsq->ss);
 	return (true);
 	/*
 	** original validation starts below
