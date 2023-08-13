@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 21:40:11 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/14 01:43:02 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:49:19 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_bool	validmap(t_bsq *bsq)
 	** which does not validate the map nor has the first line.
 	*/
 	bsq->info.height = ft_sslen(bsq->ss) - 1;
+	bsq->info.width = ft_strlen(*(bsq->ss));
 	bsq->info.key[EMPTY] = '.';
 	bsq->info.key[OBSTACLE] = 'o';
 	bsq->info.key[FULL] = 'x';
