@@ -6,7 +6,7 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 21:40:11 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 13:56:55 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:38:39 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,19 @@ t_bool	validmap(t_bsq *bsq)
 	char	*first;
 	char	*chars;
 
+	/*
+	** this changes are specific for the DASH00 project
+	** which does not validate the map nor has the first line.
+	*/
+	bsq->info.height = ft_sslen(bsq->ss) - 1;
+	bsq->info.key[0] = '.';
+	bsq->info.key[1] = 'o';
+	bsq->info.key[1] = 'x';
+	popfirst(bsq->ss);
+	return (true);
+	/*
+	** original validation starts below
+	*/
 	first = *(bsq->ss);
 	if (ft_strlen(first) < 5)
 		return (false);
