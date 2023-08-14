@@ -6,11 +6,12 @@
 /*   By: iwillens <iwillens@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 02:20:45 by iwillens          #+#    #+#             */
-/*   Updated: 2023/08/06 13:55:55 by iwillens         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:29:18 by iwillens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bsq.h"
+#include <stdio.h>
 
 static void	placefull(char **ss, t_coord coord, char full)
 {
@@ -39,6 +40,8 @@ void	print(char **ss, t_coord coord, char full)
 
 	if (!ss)
 		return ;
+	printf("%lu,%lu|%lu,%lu\n", coord.y, coord.x, coord.ye, coord.xe);
+	return ;
 	size = ft_sslen(ss);
 	placefull(ss, coord, full);
 	i = 0;
